@@ -1,26 +1,20 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {fetchUser} from '../actions';
+import { connect } from 'react-redux';
 
-class UserHeader extends React.Component{
-    componentDidMount(){
-        this.props.fetchUser(this.props.userId);
+class UserHeader extends React.Component {
+  render() {
+    const { user } = this.props;
+
+    if (!user) {
+      return null;
     }
-    render(){
-        const {user} = this.props;
-        console.log(this.props);
-        if(!user){
-            return 'abc';
-        }
-      
-        return <div className="header">{user.name}</div>;
-    }
-}
-const mapStateToProps= (state,ownProps) =>{
-    return {user:state.users.find(user=>user.id===ownProps.userId)};
+
+    return <div className="header">{user.name}</div>;
+  }
 }
 
-export default connect(
-    mapStateToProps,
-    {fetchUser}
-    )(UserHeader);
+const mapStateToProps = (state, ownProps) => {
+  return { user: state.users.find(user => user.id === ownProps.userId) };
+};
+
+export default connect(mapStateToProps)(UserHeader);
